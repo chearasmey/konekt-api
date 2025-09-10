@@ -29,8 +29,7 @@ export const RequestEditor: React.FC = () => {
   const { request, setMethod, setUrl } = useRequestStore();
   const { execute, isLoading } = useRequest();
   const [isSaveDialogOpen, setIsSaveDialogOpen] = React.useState(false);
-  const { updateCurrentRequest, getCurrentRequest } = useRequestLoader();
-  const isEditing = Boolean(getCurrentRequest());
+  const { updateCurrentRequest } = useRequestLoader();
 
   return (
     <div className="h-full flex flex-col">

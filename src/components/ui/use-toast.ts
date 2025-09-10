@@ -1,12 +1,18 @@
-import type {
-  Toast,
-  ToastActionElement,
-} from "@/components/ui/toast"
+
+import * as React from "react"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000
 
-type ToasterToast = ReturnType<typeof createToast>
+interface Toast {
+  id: string
+  title?: string
+  description?: string
+  action?: React.ReactElement
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+type ToasterToast = Toast
 
 let count = 0
 
@@ -15,14 +21,7 @@ function genId() {
   return count.toString()
 }
 
-const actionTypes = {
-  ADD_TOAST: "ADD_TOAST",
-  UPDATE_TOAST: "UPDATE_TOAST",
-  DISMISS_TOAST: "DISMISS_TOAST",
-  REMOVE_TOAST: "REMOVE_TOAST",
-} as const
-
-let memoryState: {
+const memoryState: {
   toasts: ToasterToast[]
 } = {
   toasts: [],
@@ -31,19 +30,19 @@ let memoryState: {
 function dispatch(
   action:
     | {
-        type: typeof actionTypes.ADD_TOAST
+        type: "ADD_TOAST"
         toast: ToasterToast
       }
     | {
-        type: typeof actionTypes.UPDATE_TOAST
+        type: "UPDATE_TOAST"
         toast: Partial<ToasterToast>
       }
     | {
-        type: typeof actionTypes.DISMISS_TOAST
+        type: "DISMISS_TOAST"
         toastId?: ToasterToast["id"]
       }
     | {
-        type: typeof actionTypes.REMOVE_TOAST
+        type: "REMOVE_TOAST"
         toastId?: ToasterToast["id"]
       }
 ) {
@@ -89,33 +88,13 @@ function dispatch(
   })
 }
 
-type ActionType = typeof actionTypes
-
-type Action =
-  | {
-      type: ActionType["ADD_TOAST"]
-      toast: ToasterToast
-    }
-  | {
-      type: ActionType["UPDATE_TOAST"]
-      toast: Partial<ToasterToast>
-    }
-  | {
-      type: ActionType["DISMISS_TOAST"]
-      toastId?: ToasterToast["id"]
-    }
-  | {
-      type: ActionType["REMOVE_TOAST"]
-      toastId?: ToasterToast["id"]
-    }
-
 interface State {
-  toasts: ToasterToast[]
+  toasts: Toast[]
 }
 
-let listeners: ((state: State) => void)[] = []
+const listeners: ((state: State) => void)[] = []
 
-function createToast(props: Omit<ToasterToast, "id" | "open" | "title">) {
+function createToast(props: Omit<Toast, "id" | "open" | "onOpenChange">) {
   const id = genId()
 
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
@@ -130,9 +109,7 @@ function createToast(props: Omit<ToasterToast, "id" | "open" | "title">) {
   }
 }
 
-function toast({
-  ...props
-}: Omit<ToasterToast, "id" | "open" | "title">) {
+function toast(props: Omit<Toast, "id" | "open" | "onOpenChange">) {
   const t = createToast(props)
   dispatch({
     type: "ADD_TOAST",

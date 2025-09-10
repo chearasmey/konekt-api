@@ -1,5 +1,5 @@
 import { useRequestStore } from '@/store/requestStore';
-import { useResponseStore, type ResponseData } from '@/store/responseStore';
+import { useResponseStore } from '@/store/responseStore';
 import type { FormDataEntry } from '@/types/request';
 
 export function useRequest() {

@@ -3,7 +3,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useRequestStore } from '@/store/requestStore';
 import { useCollectionsStore } from '@/store/collectionsStore';
 import type { SavedRequest } from '@/types/collection';
 
