@@ -1,0 +1,11 @@
+1. Create a rest client that should look beautiful and it should be capable of sending
+   GET, POST, OPTIONS, DELETE, PUT requests
+2. it should allow users to save the requests in collections
+3. it should allow users to use dark mode and normal mode
+4. It should use shadcn components and it should look beautiful
+5. It should allow all request types users should be able to send json, multipart and all other parts of data to the backend
+6. for now we do not want to call APIs all the data should be in local
+
+## Technology stack
+
+1. React, shadcn, tailwindcss
